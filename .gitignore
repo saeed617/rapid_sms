@@ -13,6 +13,8 @@ public/media/
 *-env/
 rapidsms.log
 
+# env file
+.env
 
 # Created by https://www.gitignore.io/api/linux,django,python,pycharm
 

@@ -1,7 +1,8 @@
 # Django settings for rapid_sms project.
 
 import os
-
+from decouple import config, Csv
+import dj_database_url
 # The top directory for this project. Contains requirements/, manage.py,
 # and README.rst, a rapid_sms directory with settings etc (see
 # PROJECT_PATH), as well as a directory for each Django app added to this
@@ -12,7 +13,8 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 # wsgi.py, fixtures, etc.
 PROJECT_PATH = os.path.join(PROJECT_ROOT, 'rapid_sms')
 
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -22,14 +24,9 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'rapid_sms.db',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -85,7 +82,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'w#3fl!1m$j4dd+ja2(!l)4^&+dzp24vmosxbxx(5*x1xxugfp#'
+SECRET_KEY = config('SECRET_KEY')
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
